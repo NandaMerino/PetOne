@@ -92,10 +92,21 @@ public class PacienteController {
 	
 
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER') OR hasRole('USERVET')")
-	@GetMapping("/findByPart")
-	public ResponseEntity<List<Paciente>> findByPart(@RequestParam String nome) {
+	@GetMapping("/findByPart/{nome}")
+	public ResponseEntity<List<Paciente>> findByPart(@PathVariable("nome") String nome) {
 		try {
 			List<Paciente> lista = this.pacienteService.findByPart(nome);
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER') OR hasRole('USERVET')")
+	@GetMapping("/findbyuser/{id}")
+	public ResponseEntity<List<Paciente>> findbyuser(@PathVariable("id") long id) {
+		try {
+			List<Paciente> lista = this.pacienteService.findByTutorId(id);
 			return new ResponseEntity<>(lista, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

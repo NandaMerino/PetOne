@@ -11,7 +11,7 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import app.entity.Tutor;
+import app.auth.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -20,13 +20,12 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtServiceGenerator {  
 
-  public String generateToken(Tutor userDetails) {
+  public String generateToken(Usuario userDetails) {
 	
 	  
       Map<String, Object> extraClaims = new HashMap<>();
       extraClaims.put("username", userDetails.getUsername());
-      //extraClaims.put("id", userDetails.getId().toString());
-      extraClaims.put("id", String.valueOf(userDetails.getId()));
+      extraClaims.put("id", userDetails.getId().toString());
       extraClaims.put("role", userDetails.getRole());
       extraClaims.put("outracoisa", "teste");
 	  

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import app.entity.Especie;
+import app.entity.Veterinario;
 import app.repository.EspecieRepository;
 
 @Service
@@ -41,6 +42,10 @@ public class EspecieService {
 	public Especie findById(long id) {
 		Especie especie = this.especieRepository.findById(id).get();
 		return especie;
+	}
+	
+	public List<Especie> findByNome(String nome) {
+		return this.especieRepository.findByNomeStartingWith(nome);
 	}
 
 }

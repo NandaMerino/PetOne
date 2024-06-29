@@ -154,8 +154,8 @@ public class ProcedimentoController {
 	}
 	
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER') OR hasRole('USERVET')")
-	@GetMapping("/findByNomeProcedimento")
-	public ResponseEntity<List<Procedimento>>findByNomeProcedimento(@RequestParam("nomeProcedimento") String nomeProcedimento){
+	@GetMapping("/findByNomeProcedimento/{nome}")
+	public ResponseEntity<List<Procedimento>>findByNomeProcedimento(@PathVariable("nome") String nomeProcedimento){
 		try {
 			List<Procedimento> procedimento = this.procedimentoService.findByNomeProcedimento(nomeProcedimento);
 			return new ResponseEntity<>(procedimento, HttpStatus.OK);

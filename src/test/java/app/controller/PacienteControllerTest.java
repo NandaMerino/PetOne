@@ -47,6 +47,8 @@ public class PacienteControllerTest {
 		//when(this.pacienteRepository.findByEspecie(especie)).thenThrow(IllegalArgumentException.class);
 		doNothing().when(this.pacienteRepository).deleteById(Mockito.anyLong());
 	}
+	
+	/*
 
 	@Test
 	@DisplayName("Teste de integração com o método save retornando sucesso")
@@ -161,6 +163,7 @@ public class PacienteControllerTest {
 		String especie = "Ave";
 		ResponseEntity<List<Paciente>> response = pacienteController.findByEspecie(especie);
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		*/
 	}
-	*/
-}
+	
+

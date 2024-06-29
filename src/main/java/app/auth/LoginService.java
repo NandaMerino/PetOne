@@ -11,72 +11,64 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import app.config.JwtServiceGenerator;
-import app.entity.Endereco;
-import app.entity.Tutor;
-import app.service.EnderecoService;
 
 @Service
 public class LoginService {
 
-    @Autowired
-    private LoginRepository repository;
-    @Autowired
-    private JwtServiceGenerator jwtService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private EnderecoService enderecoService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+	private LoginRepository repository;
+	@Autowired
+	private JwtServiceGenerator jwtService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    public String logar(Login login) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        login.getEmail(),
-                        login.getPassword()
-                )
-        );
-        Tutor user = repository.findByEmail(login.getEmail()).get();
-        String jwtToken = jwtService.generateToken(user);
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-        return jwtToken;
-    }
+	public String logar(Login login) {
+		authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+						login.getEmail(),
+						login.getPassword()
+				)
+		);
+		Usuario user = repository.findByEmail(login.getEmail()).get();
+		String jwtToken = jwtService.generateToken(user);
 
-    public String cadastrarTutor(Tutor tutor) throws Exception {
-        Optional<Tutor> existingUser = repository.findByEmail(tutor.getEmail());
-        if (existingUser.isPresent()) {
-            throw new Exception("Usuário já cadastrado com este email");
-        }
+		return jwtToken;
+	}
 
-        // Salvando o endereço primeiro
-        Endereco enderecoSalvo = enderecoService.save(tutor.getEndereco());
+	public String cadastro(Usuario usuario) throws Exception {
+		Optional<Usuario> existingUser = repository.findByEmail(usuario.getEmail());
+		if (existingUser.isPresent()) {
+			throw new Exception("Usuário já cadastrado com este email");
+		}
 
-        // Associando o endereço salvo ao tutor
-        tutor.setEndereco(enderecoSalvo);
+		Usuario user = new Usuario();
+		user.setUsername(usuario.getEmail());
+		user.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		user.setNome(usuario.getNome());
+		user.setEmail(usuario.getEmail());
+		user.setCpf(usuario.getCpf());
+		user.setRole("USER");
 
-        // Configurando dados adicionais do tutor
-        tutor.setUsername(tutor.getEmail());
-        String rawPassword = tutor.getPassword(); // Guardar a senha original
-        tutor.setPassword(passwordEncoder.encode(rawPassword));
-        tutor.setRole("USER");
+		repository.save(user);
 
-        // Salvando o tutor no banco de dados
-        repository.save(tutor);
+		// Logar o usuário após cadastro
+		Login login = new Login();
+		login.setEmail(usuario.getEmail());
+		login.setPassword(usuario.getPassword()); 
 
-        // Logando o usuário após cadastro
-        Login login = new Login();
-        login.setEmail(tutor.getEmail());
-        login.setPassword(rawPassword); // Usar a senha original para o login
-
-        return logar(login);
-    }
-
-    public Tutor findByEmail(String email) {
+		return logar(login);
+	}
+	
+	public Usuario findByEmail(String email) {
         return repository.findByEmail(email).orElse(null);
     }
+	
 }

@@ -72,6 +72,10 @@ public class PacienteService {
 		Paciente paciente = this.pacienteRepository.findById(id).get();
 		return paciente;
 	}
+	
+	public List<Paciente> findByTutorId(long id){
+		return this.pacienteRepository.findByTutorId(id);
+	}
 
 	public List<Paciente> findByPart(String nome) {
 		return this.pacienteRepository.findByPart(nome);
