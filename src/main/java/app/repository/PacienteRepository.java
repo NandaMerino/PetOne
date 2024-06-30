@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import app.entity.Paciente;
 import app.entity.Raca;
-import app.entity.Tutor;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	//public List<Paciente> findByRaca(String raca);
@@ -18,8 +17,6 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	//public List<Paciente>findByRacaEspecie(Raca raca);
 	
 	public List<Paciente> findByRaca(Raca raca);
-	
-	public List<Paciente> findByTutorId (long id);
 	
 	//public List<Paciente>findByEspecie(Especie especie);
 

@@ -73,17 +73,6 @@ public class EspecieController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
-	@GetMapping("/findbynome/{nome}")
-	public ResponseEntity<List<Especie>> findbynome(@PathVariable("nome") String nome) {
-		try {
-			List<Especie> lista = this.especieService.findByNome(nome);
-			return new ResponseEntity<>(lista, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		}
-	}
 
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@GetMapping("/findById/{id}")

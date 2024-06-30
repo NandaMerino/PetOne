@@ -89,8 +89,8 @@ public class TutorController {
 	}
 	
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
-	@GetMapping("/findByNome/{nome}")
-	public ResponseEntity<List<Tutor>>findByNome(@PathVariable("nome") String nome){
+	@GetMapping("/findByNome")
+	public ResponseEntity<List<Tutor>>findByNome(@RequestParam("nome") String nome){
 		try {
 			List<Tutor> tutor = this.tutorService.findByNome(nome);
 			return new ResponseEntity<>(tutor, HttpStatus.OK);
@@ -134,8 +134,8 @@ public class TutorController {
 	}
 	
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
-	@GetMapping("/findByTrechoNome/{nome}")
-	public ResponseEntity<List<Tutor>>findByTrechoNome(@PathVariable("nome") String nome){
+	@GetMapping("/findByTrechoNome")
+	public ResponseEntity<List<Tutor>>findByTrechoNome(@RequestParam("nome") String nome){
 		try {
 			List<Tutor> tutor = this.tutorService.findByTrechoNome(nome);
 			return new ResponseEntity<>(tutor, HttpStatus.OK);

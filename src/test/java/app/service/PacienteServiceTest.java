@@ -16,7 +16,7 @@ import app.entity.Paciente;
 public class PacienteServiceTest {
 	@Autowired
 	PacienteService pacienteService;
-	/*
+
 	@Test
 	@DisplayName("Teste unitário retornando especie não permitida")
 	void testEspecie() {
@@ -26,7 +26,7 @@ public class PacienteServiceTest {
 			//pacienteService.verificarEspecie(paciente);
 		});
 	}
-	*/
+	
 	@Test
 	@DisplayName("Teste unitário retornando especie permitida")
 	void testEspeciePermitida() {
